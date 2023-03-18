@@ -1,0 +1,2 @@
+1. The plugins project is `plugged` into the use cases project which is part of
+clean archeticure / onion.
