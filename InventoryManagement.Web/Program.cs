@@ -1,4 +1,7 @@
 using InventoryManagement.Plugins.EFCore;
+using InventoryManagement.UseCases;
+using InventoryManagement.UseCases.Interfaces;
+using InventoryManagement.UseCases.PluginInterfaces;
 using InventoryManagement.Web.Areas.Identity;
 using InventoryManagement.Web.Data;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -23,6 +26,12 @@ builder.Services.AddDbContext<InventoryManagementDBContext>(options =>
 {
     options.UseInMemoryDatabase("InventoryManagament");
 });
+
+// DI repositories
+builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
+
+// DI use cases
+builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
 
 var app = builder.Build();
 

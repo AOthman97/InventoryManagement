@@ -1,4 +1,7 @@
 ﻿@page "/counter"
+@using InventoryManagement.UseCases.Interfaces;
+
+@inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
 
 <PageTitle>Counter</PageTitle>
 
@@ -8,11 +11,26 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<br />
+
+@*Render this compononent from the controls folder, After globally registering it in the _Import.razor file*@
+<ViewInventoriesComponent OnSearchInventories="OnSearchInventories"></ViewInventoriesComponent>
+
 @code {
     private int currentCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var Inventories = await ViewInventoriesByNameUseCase.ExecuteAsync();
+    }
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void OnSearchInventories(List<Inventory> inventories)
+    {
+        
     }
 }
