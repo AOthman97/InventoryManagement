@@ -1,0 +1,66 @@
+﻿@page "/inventories"
+@using InventoryManagement.UseCases.Interfaces;
+
+@inject NavigationManager NavigationManager
+@inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
+
+<h3>Inventory List</h3>
+<br />
+
+@*Render this compononent from the controls folder, After globally registering it in the _Import.razor file*@
+<ViewInventoriesComponent OnSearchInventories="OnSearchInventories"></ViewInventoriesComponent>
+
+@if(listInventories != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var inv in this.listInventories)
+            {
+                <tr>
+                    <td>@inv.InventoryName</td>
+                    <td>@inv.Quantity</td>
+                    <td>@inv.Price.ToString("c")</td>
+                    <td>
+                        <button type="button" class="btn btn-light">Edit</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br />
+<button type="button" class="btn btn-primary" @onclick="AddInventory">Add Inventory</button>
+
+@code {
+    // This local list would be passed-in the list of inventories if they are brought from the above component
+    private List<Inventory>? listInventories;
+
+    // This would execute when the page is rendered
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var inventories = await ViewInventoriesByNameUseCase.ExecuteAsync();
+
+        this.listInventories = inventories.ToList();
+    }
+
+    private void OnSearchInventories(List<Inventory> inventories)
+    {
+        listInventories = inventories;
+    }
+
+    private void AddInventory()
+    {
+        NavigationManager.NavigateTo("addinventory");
+    }
+}
