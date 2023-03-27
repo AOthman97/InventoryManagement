@@ -3,18 +3,18 @@ using InventoryManagement.UseCases.PluginInterfaces;
 
 namespace InventoryManagement.UseCases
 {
-    public class ViewInventoriesByName
+    public class ViewInventoryByIdUseCase
     {
         private readonly IInventoryRepository inventoryRepository;
 
-        public ViewInventoriesByName(IInventoryRepository inventoryRepository)
+        public ViewInventoryByIdUseCase(IInventoryRepository inventoryRepository)
         {
             this.inventoryRepository = inventoryRepository;
         }
 
-        public async Task<IEnumerable<Inventory>> ExecuteAsync(string name)
+        public async Task<Inventory?> ExecuteAsync(int Id)
         {
-            return await this.inventoryRepository.GetInventoriesByName(name);
+            return await inventoryRepository.GetInventoryByIdAsync(Id);
         }
     }
 }

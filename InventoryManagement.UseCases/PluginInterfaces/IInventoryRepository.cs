@@ -6,6 +6,7 @@ namespace InventoryManagement.UseCases.PluginInterfaces
     {
         Task AddInventoryAsync(Inventory inventory);
         Task<IEnumerable<Inventory>> GetInventoriesByName(string name);
+        Task<Inventory?> GetInventoryByIdAsync(int id);
         Task UpdateInventoryAsync(Inventory inventory);
     }
 }
