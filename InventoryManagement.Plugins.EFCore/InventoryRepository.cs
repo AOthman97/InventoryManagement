@@ -1,6 +1,7 @@
 ﻿using InventoryManagement.CoreBusiness;
 using InventoryManagement.UseCases.PluginInterfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace InventoryManagement.Plugins.EFCore
 {
@@ -15,6 +16,9 @@ namespace InventoryManagement.Plugins.EFCore
 
         public async Task AddInventoryAsync(Inventory inventory)
         {
+            // To prevent different inventories from having the same name
+            if (context.Inventories.Any(x => x.InventoryName.Equals(inventory.InventoryName, StringComparison.OrdinalIgnoreCase))) return;
+
             context.Inventories.Add(inventory);
             await context.SaveChangesAsync();
         }
@@ -33,6 +37,10 @@ namespace InventoryManagement.Plugins.EFCore
 
         public async Task UpdateInventoryAsync(Inventory inventory)
         {
+            // To prevent different inventories from having the same name
+            if (context.Inventories.Any(x => x.InventoryName.Equals(inventory.InventoryName, StringComparison.OrdinalIgnoreCase) &&
+                x.InventoryId != inventory.InventoryId)) return;
+
             var inv = await context.Inventories.FindAsync(inventory.InventoryId);
             if(inv != null)
             {

@@ -1,9 +1,10 @@
 ﻿using InventoryManagement.CoreBusiness;
+using InventoryManagement.UseCases.Interfaces;
 using InventoryManagement.UseCases.PluginInterfaces;
 
 namespace InventoryManagement.UseCases
 {
-    public class ViewInventoryByIdUseCase
+    public class ViewInventoryByIdUseCase : IViewInventoryByIdUseCase
     {
         private readonly IInventoryRepository inventoryRepository;
 
